@@ -75,8 +75,27 @@ Manually add 3 sucompat/ksud hooks — **place the call AFTER the local declarat
   `ksu_handle_faccessat(&dfd, &filename, &mode, NULL);`
 - `fs/read_write.c` → in `vfs_read`, after `ssize_t ret;`:
   `ksu_handle_vfs_read(&file, &buf, &count, &pos);`
+- `fs/stat.c` → in `vfs_statx`, after the local declarations:
+  `ksu_handle_stat(&dfd, (const char __user **)&filename, &flags);`
+  (covers `stat`/`lstat`/`newfstatat`/`statx` — `vfs_fstatat` is an inline
+  wrapper around `vfs_statx`). Needed so `ls`/`test -f` existence checks on
+  `/system/bin/su` succeed — NetHunter probes su existence before exec.
 
 (Each needs an `extern` prototype above the function — see `scripts/ksu_patch.py`.)
+
+### Make su work in app terminals (seccomp)
+
+Android's zygote launches every app under a seccomp filter, and upstream
+`__is_su_allowed()` in `KernelSU/kernel/feature/sucompat.c` bails out early when
+`TIF_SECCOMP` is set — which disables `su` in **every** app shell (Termux,
+NetHunter). Remove that early-return so sucompat applies to allowed uids
+regardless of seccomp:
+
+```c
+/* delete these two lines in __is_su_allowed(): */
+if (likely(test_thread_flag(TIF_SECCOMP)))
+    return false;
+```
 
 ## Build
 
