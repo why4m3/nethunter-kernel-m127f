@@ -52,8 +52,9 @@ __attribute__((hot)) static __always_inline bool __is_su_allowed(const void **pt
     if (!ksu_su_compat_enabled)
         return false;
 
-    if (likely(test_thread_flag(TIF_SECCOMP)))
-        return false;
+    /* NOTE: seccomp gate removed - Android apps (Termux/NetHunter) always run
+     * under a zygote seccomp filter; skipping them here disabled su entirely
+     * in app terminals. Allow sucompat regardless of TIF_SECCOMP. */
 
     if (!ksu_is_allow_uid_for_current(current_uid().val))
         return false;
