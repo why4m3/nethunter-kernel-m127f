@@ -31,3 +31,5 @@ obj-$(CONFIG_MAC80211_HWSIM)	+= mac80211_hwsim.o
 obj-$(CONFIG_VIRT_WIFI)	+= virt_wifi.o
 
 obj-$(CONFIG_SCSC_WLAN) += scsc/
+
+obj-$(CONFIG_RTL8188EU) += rtl8188eus/
