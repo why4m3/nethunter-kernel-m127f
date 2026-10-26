@@ -47,7 +47,7 @@ To my knowledge this is the **first NetHunter kernel for the M127F** — the dev
 
 RTL8188EUS adapter in monitor mode on SM-M127F, confirmed on real hardware:
 
-![Monitor mode confirmed — type monitor on wlan1](docs/img/monitor_mode_proof.png)
+![Monitor mode confirmed — type monitor on wlan1](docs/img/monitor_mode.png)
 
 ```sh
 # root shell (KernelSU) — Kali NetHunter chroot
