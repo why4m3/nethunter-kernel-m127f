@@ -1,10 +1,28 @@
 # Kali NetHunter Kernel — Samsung Galaxy M12 (SM-M127F)
 
+[![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![Kernel](https://img.shields.io/badge/Kernel-4.19.111-green)](https://github.com/why4m3/nethunter-kernel-m127f)
+[![Android](https://img.shields.io/badge/Android-13%20%2F%20One%20UI%205.1-brightgreen)](https://github.com/why4m3/nethunter-kernel-m127f)
+[![Device](https://img.shields.io/badge/Device-SM--M127F-orange)](https://github.com/why4m3/nethunter-kernel-m127f)
+[![KernelSU](https://img.shields.io/badge/Root-KernelSU-red)](https://github.com/rsuntk/KernelSU)
+
 Custom **Kali NetHunter–capable kernel** for the Samsung Galaxy M12 (**SM-M127F**, Exynos 850 / `universal3830`, Android 13 / One UI Core 5.1, kernel **4.19.111**).
 
 To my knowledge this is the **first NetHunter kernel for the M127F** — the device is not on the official NetHunter device list. Built from source, validated on real hardware (monitor mode + USB Wi‑Fi adapter confirmed working).
 
 > ⚠️ **For authorized security testing and education only.** You are responsible for complying with the law in your jurisdiction.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Proof](#proof)
+- [Why this exists / notes](#why-this-exists--notes)
+- [Quick start (prebuilt)](#quick-start-prebuilt)
+- [Build from source](#build-from-source)
+- [Credits](#credits)
+- [License](#license)
 
 ---
 
@@ -22,6 +40,21 @@ To my knowledge this is the **first NetHunter kernel for the M127F** — the dev
 | CFG80211 / WEXT (airmon‑ng) + `CONFIG_PACKET` (raw sockets) | ✅ |
 
 > USB MITM over **ECM (Linux/Mac targets)** is not enabled in this build — RNDIS covers Windows. Trivial one‑line config add if needed.
+
+---
+
+## Proof
+
+RTL8188EUS adapter in monitor mode on SM-M127F, confirmed on real hardware:
+
+![Monitor mode confirmed — type monitor on wlan1](docs/img/monitor_mode_proof.png)
+
+```sh
+# root shell (KernelSU) — Kali NetHunter chroot
+iw dev wlan1 set type monitor
+ip link set wlan1 up
+iw dev wlan1 info   # -> type monitor
+```
 
 ---
 
